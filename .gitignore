@@ -1,0 +1,138 @@
+# .gitignore for .NET projects
+
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files with Visual Studio
+.vscode/
+.vscode-test/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (Mono Auto Generated)
+mono_crash.*
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Auto generated files (mono Auto Generated)
+mono_crash.*
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Aa][Rr][Mm]v7/
+
+# Legacy directories
+[Bb]in/
+[Oo]bj/
+
+# Enable "untracked files" handling for dotnet CLI / Visual Studio
+/.vs/
+.vs/
+
+# Coverage files
+coverage/
+*.coverage
+*.coveragexml
+*.coveragefile
+*.coverageinfo
+
+# Roslyn cache files
+[Rr]oslyn/
+[Rr]oslyn/[Cc]ompiler[Oo]utput/
+
+# Include package references for nuget
+*.nupkg
+*.snupkg
+
+# User-specific logs
+*.nupkg.sha512
+*.snupkg.sha512
+*.log
+*.dsn
+
+# lock files
+*.lock.json
+*.props.lock.json
+
+# Auto generated .NET Core files
+project.lock.json
+project.fragment.lock.json
+
+# .NET Core project temporary files
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Publish Web Output
+wwwroot/
+
+# Web config
+web.config
+
+# Azure environment variables
+AzureStorageEmulator.*
+
+# Azure DevOps
+.vsconfig
+.vs.cache
+.vsdoc
+*.pidb
+
+# User secrets
+secrets.json
+.secret
+
+# Rider Settings
+.idea/
+
+# Rider Internal cache
+.idea_modules/
+.idea*
+__pycache__/
+
+# Rider workspaces
+*.Directory.Build.props
+*.Directory.Build.targets
+
+# Rider logs
+.idea/
+
+# Rider Internal Settings
+.idea*
+.idea_modules/
+
+# Rider configs
+.idea/
+
+# Rider settings
+.idea
+
+# Rider workspaces
+*.Directory.Build.props
+*.Directory.Build.targets
+
+# Rider logs
+*.log
+Logs/
+log.txt
+log/
