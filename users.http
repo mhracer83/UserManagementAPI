@@ -1,29 +1,37 @@
-### Get all users
+### Get all users with valid authorization
 GET http://localhost:5083/users
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiMzdhNThkZjEtNDcwMi00ZGFiLWE0YTMtNGU1NTAyNzU1Nzk2IiwiZXhwIjoxNzQwMjc5MTE4LCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.E5PRhflESReVMeT7QE6kXFLXchMPcFAfZ663E_u8OMI
 
-### Get a single user by ID
-GET http://localhost:5083/users/1
+### Get a single user by ID with valid authorization
+GET http://localhost:5083/user/1
 Accept: application/json
+Authorization: Bearer your_generated_jwt_token
 
-### Create a new user
+### Create a new user with valid authorization
 POST http://localhost:5083/users
 Content-Type: application/json
+Authorization: Bearer your_generated_jwt_token
 
 {
     "username": "Jerry Smerry",
     "emailaddress": "john.doe@example.com"
 }
 
-### Update an existing user
+### Update an existing user with valid authorization
 PUT http://localhost:5083/users/1
 Content-Type: application/json
+Authorization: Bearer your_generated_jwt_token
 
 {
     "username": "John Doe Updated",
     "emailaddress": "john.doe.updated@example.com"
 }
 
-### Delete a user
-DELETE http://localhost:5083/users/3
+### Delete a user with valid authorization
+DELETE http://localhost:5083/users/1
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiMzdhNThkZjEtNDcwMi00ZGFiLWE0YTMtNGU1NTAyNzU1Nzk2IiwiZXhwIjoxNzQwMjc5MTE4LCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.E5PRhflESReVMeT7QE6kXFLXchMPcFAfZ663E_u8OMI
+
+### Generate a new token
+POST http://localhost:5083/generateToken

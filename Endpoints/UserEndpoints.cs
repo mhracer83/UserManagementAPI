@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using UserManagementAPI.Models;
 
 namespace UserManagementAPI.Endpoints;
@@ -16,12 +17,12 @@ public static class UserEndpoints
 
         var group = app.MapGroup("users");
 
-        //GET /users
-        group.MapGet("/", () =>
+        // Secure endpoints with the [Authorize] attribute
+        group.MapGet("/", [Authorize] () =>
         {
             try
             {
-                return Results.Ok(Users); // Wrap Users in Results.Ok
+                return Results.Ok(Users);
             }
             catch (Exception ex)
             {
@@ -29,8 +30,7 @@ public static class UserEndpoints
             }
         });
 
-        //GET /users/{id}
-        group.MapGet("/{id}", (int id) =>
+        group.MapGet("/{id}", [Authorize] (int id) =>
         {
             try
             {
@@ -43,8 +43,7 @@ public static class UserEndpoints
         })
         .WithName(GetEndpointName);
 
-        //POST /users
-        group.MapPost("/", (User newUser) =>
+        group.MapPost("/", [Authorize] (User newUser) =>
         {
             try
             {
@@ -68,8 +67,7 @@ public static class UserEndpoints
             }
         });
 
-        // PUT /users/{id}
-        group.MapPut("/{id}", (int id, User updatedUser) =>
+        group.MapPut("/{id}", [Authorize] (int id, User updatedUser) =>
         {
             try
             {
@@ -87,7 +85,7 @@ public static class UserEndpoints
                 Users[existingUserIndex].UserName = updatedUser.UserName;
                 Users[existingUserIndex].EmailAddress = updatedUser.EmailAddress;
 
-                return Results.Ok(Users[existingUserIndex]); // Return updated user
+                return Results.Ok(Users[existingUserIndex]);
             }
             catch (Exception ex)
             {
@@ -95,8 +93,7 @@ public static class UserEndpoints
             }
         });
 
-       //DELETE /users/{id}
-        group.MapDelete("/{id}", (int id) =>
+        group.MapDelete("/{id}", [Authorize] (int id) =>
         {
             try
             {
