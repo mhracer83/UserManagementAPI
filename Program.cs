@@ -8,6 +8,10 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Define the secret key and the static token
+const string secretKey = "my_ulta_super_secret_key_1234567890123456";
+string token = GenerateToken(secretKey);
+
 // Add services to the container.
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -21,7 +25,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = "MyAPI",
             ValidAudience = "MyAPIUsers",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_ultra_super_secret_key_1234567890123456"))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)) // Ensure this key matches
         };
     });
 
@@ -36,25 +40,32 @@ app.UseMiddleware<RequestResponseLoggingMiddleware>(); // Register the logging m
 
 
 app.MapUserEndpoints();
+// Endpoint to return the static token for testing
 app.MapPost("/generateToken", () =>
+{
+    return token;
+});
+
+app.Run();
+
+// Helper method to generate the static token
+string GenerateToken(string secretKey)
 {
     var claims = new[]
     {
-        new Claim(JwtRegisteredClaimNames.Sub, "user123"),
+        new Claim(JwtRegisteredClaimNames.Sub, "user123"), // Replace with your user ID or unique identifier
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
     };
 
-    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_ultra_super_secret_key_1234567890123456"));
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
     var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
     var token = new JwtSecurityToken(
         issuer: "MyAPI",
         audience: "MyAPIUsers",
         claims: claims,
-        expires: DateTime.Now.AddMinutes(30),
+        expires: DateTime.Now.AddYears(100), // Set a long expiration time for the static token
         signingCredentials: creds);
 
     return new JwtSecurityTokenHandler().WriteToken(token);
-});
-
-app.Run();
+}

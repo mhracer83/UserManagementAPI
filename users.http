@@ -1,17 +1,17 @@
 ### Get all users with valid authorization
 GET http://localhost:5083/users
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiMzdhNThkZjEtNDcwMi00ZGFiLWE0YTMtNGU1NTAyNzU1Nzk2IiwiZXhwIjoxNzQwMjc5MTE4LCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.E5PRhflESReVMeT7QE6kXFLXchMPcFAfZ663E_u8OMI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiZWRiNmYyMTctYzJjYi00ODIyLWE2YzEtYTQ4NjBlZjg0YTA5IiwiZXhwIjo0ODk1OTUxODY0LCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.SRiH_Q7EN0Q0r0UjdEVaUy3jbmpjyPgKJcfSfxp3cF4
 
 ### Get a single user by ID with valid authorization
-GET http://localhost:5083/user/1
+GET http://localhost:5083/users/1
 Accept: application/json
-Authorization: Bearer your_generated_jwt_token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiZWRiNmYyMTctYzJjYi00ODIyLWE2YzEtYTQ4NjBlZjg0YTA5IiwiZXhwIjo0ODk1OTUxODY0LCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.SRiH_Q7EN0Q0r0UjdEVaUy3jbmpjyPgKJcfSfxp3cF4
 
 ### Create a new user with valid authorization
 POST http://localhost:5083/users
 Content-Type: application/json
-Authorization: Bearer your_generated_jwt_token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiZWRiNmYyMTctYzJjYi00ODIyLWE2YzEtYTQ4NjBlZjg0YTA5IiwiZXhwIjo0ODk1OTUxODY0LCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.SRiH_Q7EN0Q0r0UjdEVaUy3jbmpjyPgKJcfSfxp3cF4
 
 {
     "username": "Jerry Smerry",
@@ -21,7 +21,7 @@ Authorization: Bearer your_generated_jwt_token
 ### Update an existing user with valid authorization
 PUT http://localhost:5083/users/1
 Content-Type: application/json
-Authorization: Bearer your_generated_jwt_token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiZWRiNmYyMTctYzJjYi00ODIyLWE2YzEtYTQ4NjBlZjg0YTA5IiwiZXhwIjo0ODk1OTUxODY0LCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.SRiH_Q7EN0Q0r0UjdEVaUy3jbmpjyPgKJcfSfxp3cF4
 
 {
     "username": "John Doe Updated",
@@ -29,9 +29,9 @@ Authorization: Bearer your_generated_jwt_token
 }
 
 ### Delete a user with valid authorization
-DELETE http://localhost:5083/users/1
+DELETE http://localhost:5083/users/3
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiMzdhNThkZjEtNDcwMi00ZGFiLWE0YTMtNGU1NTAyNzU1Nzk2IiwiZXhwIjoxNzQwMjc5MTE4LCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.E5PRhflESReVMeT7QE6kXFLXchMPcFAfZ663E_u8OMI
+Authorization: Bearer 12eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiOTI3YjMzYmQtMTFhOS00ZGUxLWFkZDItOTM5YTMxZmJkZWRjIiwiZXhwIjo0ODk1OTUyMTAzLCJpc3MiOiJNeUFQSSIsImF1ZCI6Ik15QVBJVXNlcnMifQ.CI2n7ctqzDgoAuC1CydzGvGONuXXvUjNRimxIDw4IRU
 
 ### Generate a new token
 POST http://localhost:5083/generateToken
