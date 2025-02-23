@@ -3,7 +3,7 @@ GET http://localhost:5083/users
 Accept: application/json
 
 ### Get a single user by ID
-GET http://localhost:5083/users/2
+GET http://localhost:5083/users/1
 Accept: application/json
 
 ### Create a new user
