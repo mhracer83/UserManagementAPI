@@ -1,89 +1,119 @@
 using UserManagementAPI.Models;
-using System.Text.Json;
 
 namespace UserManagementAPI.Endpoints;
 
 public static class UserEndpoints
 {
-    private static readonly List<User> Users = new();
-
-    static UserEndpoints()
+    private static readonly List<User> Users = new List<User>
     {
-        Users.Add(new() { Id = 1, UserName = "JohnDoe", EmailAddress = "JohnDoe@gmail.com" });
-        Users.Add(new() { Id = 2, UserName = "JaneDoe", EmailAddress = "JaneDoe@gmail.com" });
-    }
+        new() { Id = 1, UserName = "JohnDoe", EmailAddress = "JohnDoe@gmail.com" },
+        new() { Id = 2, UserName = "JaneDoe", EmailAddress = "JaneDoe@gmail.com"}
+    };
 
     public static RouteGroupBuilder MapUserEndpoints(this WebApplication app)
     {
         const string GetEndpointName = "GetUserById";
+
         var group = app.MapGroup("users");
 
-        // GET /users
-        group.MapGet("/", () => Results.Ok(Users));
-
-        // GET /users/{id}
-        group.MapGet("/{id}", (int id) =>
-        {
-            var user = Users.Find(user => user.Id == id);
-            return user is not null ? Results.Ok(user) : Results.NotFound($"User with ID {id} not found.");
-        }).WithName(GetEndpointName);
-
-        // POST /users
-        group.MapPost("/", async (HttpContext context) =>
+        //GET /users
+        group.MapGet("/", () =>
         {
             try
             {
-                var newUser = await context.Request.ReadFromJsonAsync<User>();
-                if (newUser is null || string.IsNullOrWhiteSpace(newUser.UserName) || string.IsNullOrWhiteSpace(newUser.EmailAddress))
+                return Results.Ok(Users); // Wrap Users in Results.Ok
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem("An error occurred while fetching the users. " + ex.Message);
+            }
+        });
+
+        //GET /users/{id}
+        group.MapGet("/{id}", (int id) =>
+        {
+            try
+            {
+                return Results.Ok(Users.FirstOrDefault(user => user.Id == id)) ?? Results.NotFound();
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem("An error occurred while fetching the user. " + ex.Message);
+            }
+        })
+        .WithName(GetEndpointName);
+
+        //POST /users
+        group.MapPost("/", (User newUser) =>
+        {
+            try
+            {
+                if (newUser == null || string.IsNullOrWhiteSpace(newUser.UserName) || string.IsNullOrWhiteSpace(newUser.EmailAddress))
                 {
-                    return Results.BadRequest("Invalid user data. 'UserName' and 'EmailAddress' are required.");
+                    return Results.BadRequest("Invalid user data.");
                 }
-                var newId = Users.Count > 0 ? Users.Max(x => x.Id) + 1 : 1;
-                var user = new User { Id = newId, UserName = newUser.UserName, EmailAddress = newUser.EmailAddress };
+
+                User user = new User
+                {
+                    Id = Users.Max(x => x.Id) + 1,
+                    UserName = newUser.UserName,
+                    EmailAddress = newUser.EmailAddress
+                };
                 Users.Add(user);
                 return Results.CreatedAtRoute(GetEndpointName, new { id = user.Id }, user);
             }
-            catch (JsonException)
+            catch (Exception ex)
             {
-                return Results.BadRequest("Invalid JSON format.");
+                return Results.Problem("An error occurred while creating the user. " + ex.Message);
             }
         });
 
         // PUT /users/{id}
-        group.MapPut("/{id}", async (HttpContext context, int id) =>
+        group.MapPut("/{id}", (int id, User updatedUser) =>
         {
             try
             {
-                var updatedUser = await context.Request.ReadFromJsonAsync<User>();
-                if (updatedUser is null || string.IsNullOrWhiteSpace(updatedUser.UserName) || string.IsNullOrWhiteSpace(updatedUser.EmailAddress))
+                if (updatedUser == null || string.IsNullOrWhiteSpace(updatedUser.UserName) || string.IsNullOrWhiteSpace(updatedUser.EmailAddress))
                 {
-                    return Results.BadRequest("Invalid user data. 'UserName' and 'EmailAddress' are required.");
+                    return Results.BadRequest("Invalid user data.");
                 }
-                var existingUser = Users.FirstOrDefault(user => user.Id == id);
-                if (existingUser is null)
+
+                var existingUserIndex = Users.FindIndex(user => user.Id == id);
+                if (existingUserIndex == -1)
                 {
-                    return Results.NotFound($"User with ID {id} not found.");
+                    return Results.NotFound();
                 }
-                existingUser.UserName = updatedUser.UserName;
-                existingUser.EmailAddress = updatedUser.EmailAddress;
-                return Results.Ok(existingUser);
+
+                Users[existingUserIndex].UserName = updatedUser.UserName;
+                Users[existingUserIndex].EmailAddress = updatedUser.EmailAddress;
+
+                return Results.Ok(Users[existingUserIndex]); // Return updated user
             }
-            catch (JsonException)
+            catch (Exception ex)
             {
-                return Results.BadRequest("Invalid JSON format.");
+                return Results.Problem("An error occurred while updating the user. " + ex.Message);
             }
         });
 
-        // DELETE /users/{id}
+       //DELETE /users/{id}
         group.MapDelete("/{id}", (int id) =>
         {
-            var existingUser = Users.FirstOrDefault(x => x.Id == id);
-            if (existingUser is null)
+            try
             {
-                return Results.NotFound($"User with ID {id} not found.");
+                var existingUser = Users.FirstOrDefault(x => x.Id == id);
+                if (existingUser is null)
+                {
+                    return Results.NotFound();
+                }
+
+                Users.Remove(existingUser);
+
+                return Results.NoContent();
             }
-            Users.Remove(existingUser);
-            return Results.NoContent();
+            catch (Exception ex)
+            {
+                return Results.Problem("An error occurred while deleting the user. " + ex.Message);
+            }
         });
 
         return group;

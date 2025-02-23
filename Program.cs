@@ -8,6 +8,7 @@ builder.Services.AddLogging();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>(); // Register the exception handling middleware
 app.UseMiddleware<RequestResponseLoggingMiddleware>(); // Register the logging middleware
 
 app.MapUserEndpoints();
